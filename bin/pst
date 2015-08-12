@@ -1,0 +1,30 @@
+#!/usr/bin/perl -W
+
+# To be used with cpy
+# Usage: pst [directory]
+
+if ($#ARGV > 0) {
+	print "Usage: pst [directory]\n";
+	exit;
+}
+
+$CLIPBOARD = "$ENV{HOME}/tmp/.clipboard";
+$DIR = `pwd`;
+chop $DIR;
+
+@items = `ls $CLIPBOARD`;
+chop @items;
+
+if ($#ARGV == 0) {
+	$DIR = $ARGV[0];
+}
+
+#if ($DIR =~ m/^\/cygdrive/) {
+#	$DIR = `cygpath -w "$DIR"`;
+#	chop $DIR;
+#	$DIR .= "\\";
+#}
+
+foreach $item (@items) {
+	`cp -r $CLIPBOARD/$item $item`;
+}

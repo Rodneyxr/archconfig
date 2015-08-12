@@ -1,0 +1,14 @@
+# Blacklist everything
+*
+
+# Whitelist these directories
+!bin/
+!bin/**
+
+# and these files
+!.gitignore
+!.profile
+!.bash_profile
+!.bashrc
+!.vimrc
+!.ycm_extra_conf.py
