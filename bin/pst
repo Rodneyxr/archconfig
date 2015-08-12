@@ -19,11 +19,13 @@ if ($#ARGV == 0) {
 	$DIR = $ARGV[0];
 }
 
-#if ($DIR =~ m/^\/cygdrive/) {
-#	$DIR = `cygpath -w "$DIR"`;
-#	chop $DIR;
-#	$DIR .= "\\";
-#}
+# check for cygwin path
+# FIXME: not yet tested
+if ($DIR =~ m/^\/cygdrive/) {
+    $DIR = `cygpath -w "$DIR"`;
+    chop $DIR;
+    $DIR .= "\\";
+}
 
 foreach $item (@items) {
 	`cp -r $CLIPBOARD/$item $item`;

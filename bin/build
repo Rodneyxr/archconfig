@@ -74,11 +74,3 @@ sub get_main_class_path {
 	$main_class_path = `find src | grep '.*/$main_class_name\$'`;
 }
 
-
-
-
-
-
-
-
-

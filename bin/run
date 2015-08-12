@@ -19,7 +19,6 @@ if (!(-e $build_settings)) {
 	exit;
 } else {
 	read_build_settings();
-	#$tmp = $main_class_path #join(" ", @ARGV);
 	$main_class_path =~ m/(\.\/\w+)\/(.*).java/;
 	$bin_dir = $1;
 	$class = $2;

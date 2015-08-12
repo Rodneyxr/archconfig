@@ -1,16 +1,16 @@
 #!/usr/bin/perl -W
 
 # To be used with pst
-# Usage: cpy <file1> <file2> ...
+# usage: cpy File [File ...]
 
 if ($#ARGV == -1) {
-	print "Usage: cpy <file1> <file2> ..\n";
+	print "usage: cpy File [File ...]\n";
 	exit;
 }
 
 $CLIPBOARD = "$ENV{HOME}/tmp/.clipboard";
 if (-d $CLIPBOARD) {
-	`rm -r $CLIPBOARD/* -f`;
+	`rm -rf $CLIPBOARD/*`;
 } else {
 	mkdir $CLIPBOARD;
 	print "Created $CLIPBOARD\n";
@@ -20,15 +20,18 @@ $DIR = `pwd`;
 chop $DIR;
 $DIR .= "/";
 
+# check for cygwin path
+# FIXME: not yet tested
 if ($DIR =~ /^\/cygdrive/) {
 	$DIR = `cygpath -w "$DIR"`;
 	chop $DIR;
-	#grep s/\\/\//g, $DIR;
-
+	grep s/\\/\//g, $DIR;
 }
 
-#print "$DIR$ARGV[0]\n";
-
 while ($item = shift) {
-	`cp -r $DIR$item $CLIPBOARD`;
+    if (-e $item) {
+        `cp -r $DIR$item $CLIPBOARD`;
+    } else {
+        print "omitting '$item': file or directory does not exist\n"
+    }
 }
