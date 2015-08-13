@@ -11,7 +11,7 @@ def main():
     if args.empty:
         if len(args.files) == 0:
             if os.path.exists(TRASH_DIR):
-                cmd = ['rm', '-rf', TRASH_DIR+r'*']
+                cmd = ['rm', '-rf', TRASH_DIR+'*']
             else:
                 print('There is no trash to take out.')
                 sys.exit(0)
@@ -29,8 +29,8 @@ def main():
             sys.exit(0)
         cmd.append(TRASH_DIR)
 
-    print(cmd)
-    subprocess.call(cmd)
+    cmd = ' '.join(cmd)
+    subprocess.call(cmd, shell=True)
    
 def mkdir(path):
     try:
