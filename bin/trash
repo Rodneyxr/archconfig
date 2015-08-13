@@ -1,0 +1,64 @@
+#!/usr/bin/env python
+
+import argparse, subprocess, os, sys
+
+TRASH_DIR = os.getenv('HOME') + '/.trash/'
+
+def main():
+    args = parse_args()
+    cmd = ''
+
+    if args.empty:
+        if len(args.files) == 0:
+            if os.path.exists(TRASH_DIR):
+                cmd = ['rm', '-rf', TRASH_DIR+r'*']
+            else:
+                print('There is no trash to take out.')
+                sys.exit(0)
+        else:
+            parser.error("do not arguments with --empty")
+    elif len(args.files) == 0:
+        parser.error("you must specify at least one file to trash")
+    else:
+        mkdir(TRASH_DIR)
+        cmd = ['mv']
+        for f in args.files:
+            cmd.append(f) if os.path.exists(f) else print("omitting '{}': file or directory does not exist".format(f))
+        if len(cmd) == 1:
+            sys.stderr.write("trash: error: none of the files you specified exist\n")
+            sys.exit(0)
+        cmd.append(TRASH_DIR)
+
+    print(cmd)
+    subprocess.call(cmd)
+   
+def mkdir(path):
+    try:
+        os.makedirs(path, exist_ok=True)
+    except OSError as err:
+        sys.stderr('Error: unable to create trash directory') 
+        sys.exit()
+
+
+def parse_args():
+    global parser
+    parser = argparse.ArgumentParser(
+            description="Safely move files to trash rather than directly removing them from the system.")
+    parser.add_argument('--empty', dest='empty', action='store_true',
+            help='remove everything in trash from the system')
+    parser.add_argument('files', metavar='File', type=str, nargs='*',
+            help='file to move to trash')
+
+    return parser.parse_args()
+
+def flags(args):
+    flags = '-'
+    if args.recursive:
+        flags += 'r'
+    if args.force:
+        flags += 'f'
+    if flags == '-':
+        flags = ''
+    return flags
+
+main()
