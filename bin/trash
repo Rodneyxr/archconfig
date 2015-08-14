@@ -1,6 +1,10 @@
 #!/usr/bin/env python
 
-import argparse, subprocess, os, sys
+import os
+import sys
+import argparse
+import subprocess
+import shutil
 
 TRASH_DIR = os.getenv('HOME') + '/.trash/'
 
@@ -11,7 +15,9 @@ def main():
     if args.empty:
         if len(args.files) == 0:
             if os.path.exists(TRASH_DIR):
-                cmd = ['rm', '-rf', TRASH_DIR+'*']
+                empty_directory(TRASH_DIR)
+                print('Trash is now empty.')
+                sys.exit(0)
             else:
                 print('There is no trash to take out.')
                 sys.exit(0)
@@ -50,6 +56,15 @@ def parse_args():
             help='file to move to trash')
 
     return parser.parse_args()
+
+def remove(path):
+    if os.path.isdir(path):
+        shutil.rmtree(path)
+    else:
+        os.remove(path)
+
+def empty_directory(path):
+    [remove(os.path.join(path, f)) for f in os.listdir(path)]
 
 def flags(args):
     flags = '-'
