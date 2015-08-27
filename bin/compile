@@ -1,0 +1,5 @@
+#!/usr/bin/perl -W
+
+# Usage: compile <file>
+
+`gcc -g -Wall -o $ARGV[0] $ARGV[0].c`

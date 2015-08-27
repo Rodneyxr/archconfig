@@ -1,0 +1,42 @@
+#!/usr/bin/perl -W
+
+# Author: Rodney Rodriguez
+# Description: Will create a singlemake file for up to 2 C source files
+# Usage: cm <file1> [file2]
+
+use Switch;
+
+my $makefile = "";
+my $nargs = $#ARGV;
+my $file1 = shift;
+my $file2 = shift;
+
+switch ($nargs) {
+
+	case -1 { # No arguments
+		print "Error: Needs at least 1 C source file\n";
+		print "Usage: cm <file1> [file2]\n";
+		exit;
+	}
+
+	case 0 { # 1 argument
+		$makefile = "$file1: $file1.c\n";
+                $makefile .= "\tgcc -g -Wall -o $file1 $file1.c\n";
+	}
+	
+	case 1 { # 2 arguments
+		$makefile = "$file1: $file1.c $file2.c\n";
+                $makefile .= "\tgcc -g -Wall -o $file1 $file1.c $file2.c\n";
+	}
+
+	else {
+		print "Error: Too many arguments\n";
+		print "Usage: cm <file1> [file2]\n";
+		exit;
+	}
+
+}
+
+open(MAKEFILE, "> makefile") or die "Error: Could not open makefile: $!";
+print MAKEFILE $makefile;
+close MAKEFILE;
