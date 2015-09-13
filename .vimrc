@@ -73,6 +73,7 @@ inoremap <C-Up> <Esc>:m .-2<CR>==gi
 vnoremap <C-Down> :m '>+1<CR>gv=gv
 vnoremap <C-Up> :m '<-2<CR>gv=gv
 
+" delete selection or current line
 map <C-d> dd
 map <C-a> <esc>ggVG<CR>
 map q :q!<cr>
