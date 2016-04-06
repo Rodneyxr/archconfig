@@ -1,0 +1,11 @@
+Edit windows registry from CentOS 7
+  - Download chntpw from http://www.chntpw.com/download/
+  - yum install epel-release
+  - yum install ntfs-3g  or yum --enablerepo epel install ntfs-3g 
+  - lsblk
+  - mount /dev/sdb3 /media
+  - cd /media
+  - chntpw -l /media/Windows/System32/config/SYSTEM
+  - cd /ControlSet001/Services/storahci/StartOverride
+  - ed value
+  - q
