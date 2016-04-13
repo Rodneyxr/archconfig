@@ -1,0 +1,25 @@
+#!/bin/sh
+
+# go home
+cd ~
+
+# install dependencies
+apt install -y git gcc g++ build-essential cmake python-dev python3-dev
+apt install -y nodejs npm
+apt install -y golang
+
+# clone Vundle
+git clone https://github.com/gmarik/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+
+# backup original .vimrc if it exists
+mv .vimrc .vimrc.old
+
+# wget .vimrc and .ycm_extra.py
+wget https://raw.githubusercontent.com/rodneyxr/archconfig/master/.vimrc
+wget https://raw.githubusercontent.com/rodneyxr/archconfig/master/.ycm_extra_conf.py
+
+# install plugins
+vim +PluginInstall +qall
+
+cd .vim/bundle/YouCompleteMe
+./install.py --clang-completer --gocode-completer --tern-completer
