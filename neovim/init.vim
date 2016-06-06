@@ -21,7 +21,8 @@ call dein#add('fatih/molokai') " colorscheme
 call dein#add('scrooloose/nerdtree') " side mounted file explorer
 call dein#add('tomtom/tcomment_vim') " easy code commenting
 call dein#add('vim-airline/vim-airline') " better status bar
-call dein#add('christoomey/vim-tmux-navigator')
+call dein#add('christoomey/vim-tmux-navigator') " change windows
+call dein#add('itchyny/vim-cursorword') " underline words under cursor
 
 " Syntax
 call dein#add('neomake/neomake') " linter

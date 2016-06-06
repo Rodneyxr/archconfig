@@ -4,12 +4,13 @@ NVIM_DIR=$HOME/.config/nvim
 echo "Setting up neovim in '$NVIM_DIR'"
 
 mkdir -p $NVIM_DIR
-
+mv $NVIM_DIR/init.vim $NVIM_DIR/.old.init.vim
+wget https://raw.githubusercontent.com/rodneyxr/archconfig/master/neovim/init.vim -O $NVIM_DIR/init.vim
 
 # Install neovim
 sudo apt install -y software-properties-common
 if ! grep -qE "^[^#]+neovim-ppa/unstable" /etc/apt/sources.list /etc/apt/sources.list.d/*; then
-	sudo add-apt-repository ppa:neovim-ppa/unstable
+	sudo -y add-apt-repository ppa:neovim-ppa/unstable
 else
 	echo "ppa:neovim-ppa/unstable already added"
 fi
@@ -22,7 +23,7 @@ sudo pip2 install neovim
 sudo pip3 install neovim
 
 # Dependencies
-sudo apt install clang libclang-dev golang-go npm tidy
+sudo apt install -y clang libclang-dev golang-go npm tidy
 sudo pip3 install vim-vint jedi
 sudo npm install -g jshint jsonlint csslint
 
@@ -30,3 +31,5 @@ mkdir -p ~/go
 export GOPATH=$HOME/go
 go get -u github.com/nsf/gocode
 nvim +GoInstallBinaries +qall
+
+echo "done."
