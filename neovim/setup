@@ -7,15 +7,26 @@ mkdir -p $NVIM_DIR
 mv $NVIM_DIR/init.vim $NVIM_DIR/.old.init.vim
 wget https://raw.githubusercontent.com/rodneyxr/archconfig/master/neovim/init.vim -O $NVIM_DIR/init.vim
 
-# Install neovim
+# Add neovim ppa
 sudo apt install -y software-properties-common
 if ! grep -qE "^[^#]+neovim-ppa/unstable" /etc/apt/sources.list /etc/apt/sources.list.d/*; then
-	sudo -y add-apt-repository ppa:neovim-ppa/unstable
+	sudo add-apt-repository -y ppa:neovim-ppa/unstable
 else
 	echo "ppa:neovim-ppa/unstable already added"
 fi
+
+# Add golang ppa
+if ! grep -qE "^[^#]+ubuntu-lxc/lxd-stable" /etc/apt/sources.list /etc/apt/sources.list.d/*; then
+	sudo add-apt-repository -y ppa:ubuntu-lxc/lxd-stable
+else
+	echo "ppa:neovim-ppa/unstable already added"
+fi
+
+# Update
 sudo apt update
-sudo apt install -y neovim
+
+# Install Neovim
+sudo apt install -y neovim git
 
 # Python Modules
 sudo apt install -y python-dev python-pip python3-dev python3-pip
@@ -23,13 +34,16 @@ sudo pip2 install neovim
 sudo pip3 install neovim
 
 # Dependencies
-sudo apt install -y clang libclang-dev golang-go npm tidy
+sudo apt install -y clang libclang-dev tidy
 sudo pip3 install vim-vint jedi
-sudo npm install -g jshint jsonlint csslint
+#sudo npm install -g jshint jsonlint csslint
+
+# Install golang
+sudo apt install -y golang
 
 mkdir -p ~/go
 export GOPATH=$HOME/go
 go get -u github.com/nsf/gocode
-nvim +GoInstallBinaries +qall
+nvim +silent +GoInstallBinaries +qall
 
 echo "done."
